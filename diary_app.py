@@ -1,7 +1,8 @@
 import streamlit as st
 from datetime import datetime
 from utils.db_manager import init_db, register_user, login_user, add_entry, get_entries, update_entry, delete_entry
-
+from zoneinfo import ZoneInfo
+IST = ZoneInfo("Asia/Kolkata")
 # Initialize database
 init_db()
 
@@ -62,10 +63,6 @@ def view_ui():
     with col1:
         entries = get_entries(st.session_state.user_id)
 
-        from zoneinfo import ZoneInfo  # add at the top of diary_app.py
-
-        IST = ZoneInfo("Asia/Kolkata")
-
         filtered = [e for e in entries if datetime.strptime(e[3], "%d %b %Y, %I:%M %p").replace(tzinfo=IST).date() == selected_date]
 
         if not filtered:
@@ -73,12 +70,13 @@ def view_ui():
             return
 
         for entry in filtered:
-            with st.expander(f"📌 {entry[1]}  —  *{entry[3]}*"):
-                st.write(entry[2])
-                if st.button("❌ Delete", key=f"del_{entry[0]}"):
-                    delete_entry(entry[0])
-                    st.success("Entry deleted.")
-                    st.rerun()
+        ts = datetime.strptime(entry[3], "%d %b %Y, %I:%M %p").replace(tzinfo=IST)
+        with st.expander(f"📌 {entry[1]}  —  *{ts.strftime('%d %b %Y, %I:%M %p')}*"):
+            st.write(entry[2])
+            if st.button("❌ Delete", key=f"del_{entry[0]}"):
+                delete_entry(entry[0])
+                st.success("Entry deleted.")
+                st.rerun()
 
 
 def update_ui():
