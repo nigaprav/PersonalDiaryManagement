@@ -70,13 +70,13 @@ def view_ui():
             return
 
         for entry in filtered:
-        ts = datetime.strptime(entry[3], "%d %b %Y, %I:%M %p").replace(tzinfo=IST)
-        with st.expander(f"📌 {entry[1]}  —  *{ts.strftime('%d %b %Y, %I:%M %p')}*"):
-            st.write(entry[2])
-            if st.button("❌ Delete", key=f"del_{entry[0]}"):
-                delete_entry(entry[0])
-                st.success("Entry deleted.")
-                st.rerun()
+            ts = datetime.strptime(entry[3], "%d %b %Y, %I:%M %p").replace(tzinfo=IST)
+            with st.expander(f"📌 {entry[1]}  —  *{ts.strftime('%d %b %Y, %I:%M %p')}*"):
+                st.write(entry[2])
+                if st.button("❌ Delete", key=f"del_{entry[0]}"):
+                    delete_entry(entry[0])
+                    st.success("Entry deleted.")
+                    st.rerun()
 
 
 def update_ui():
