@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 import psycopg2
-from zoneinfo import Zoneinfo
+from zoneinfo import ZoneInfo
 # Load local .env (for local dev)
 load_dotenv()
 
