@@ -58,7 +58,7 @@ def view_ui():
 
     with col2:
         st.markdown("### 📅 Select a Date")
-        selected_date = st.date_input("Filter by date", datetime.today())
+        selected_date = st.date_input("Filter by date", datetime.now(IST).date())
 
     with col1:
         entries = get_entries(st.session_state.user_id)
