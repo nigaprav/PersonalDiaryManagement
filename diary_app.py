@@ -62,8 +62,11 @@ def view_ui():
     with col1:
         entries = get_entries(st.session_state.user_id)
 
-        # Filter entries by selected date
-        filtered = [e for e in entries if datetime.strptime(e[3], "%d %b %Y, %I:%M %p").date() == selected_date]
+        from zoneinfo import ZoneInfo  # add at the top of diary_app.py
+
+        IST = ZoneInfo("Asia/Kolkata")
+
+        filtered = [e for e in entries if datetime.strptime(e[3], "%d %b %Y, %I:%M %p").replace(tzinfo=IST).date() == selected_date]
 
         if not filtered:
             st.info("No entries for this date.")
