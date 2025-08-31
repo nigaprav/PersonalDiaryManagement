@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 import psycopg2
-
+from zoneinfo import Zoneinfo
 # Load local .env (for local dev)
 load_dotenv()
 
@@ -79,7 +79,7 @@ def login_user(username, password):
 def add_entry(user_id, title, content):
     conn = get_conn()
     c = conn.cursor()
-    timestamp = datetime.now().strftime("%d %b %Y, %I:%M %p")
+    timestamp = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d %b %Y, %I:%M %p")
     c.execute("INSERT INTO entries (user_id, title, content, timestamp) VALUES (%s, %s, %s, %s)",
               (user_id, title, content, timestamp))
     conn.commit()
@@ -100,7 +100,7 @@ def get_entries(user_id):
 def update_entry(entry_id, new_title, new_content):
     conn = get_conn()
     c = conn.cursor()
-    timestamp = datetime.now().strftime("%d %b %Y, %I:%M %p")
+    timestamp = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d %b %Y, %I:%M %p")
     c.execute("UPDATE entries SET title=%s, content=%s, timestamp=%s WHERE id=%s",
               (new_title, new_content, timestamp, entry_id))
     conn.commit()
